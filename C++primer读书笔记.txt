@@ -167,9 +167,21 @@
 	
 --------------------
 11.1、使用关联容器
-	$ 
+	$ map
+		>> 创建：map<string, size_t> word_count;
+		>> map中的元素为pair类型的对象,可以使用first表示关键字,second表示值
+		
+	$ set
+		>> 创建：set<string> exclude = {"hi", "hello"}
+		>> 判断是否在set中,调用：exclude.find(string word),找到返回对应元素的迭代器,否则返回尾后迭代器
 	
+--------------------
+11.1、关联容器概述
+	>> 关联容器不支持顺序容器的位置相关的操作,如push_front,push_back操作
+	>> 关联容器的迭代器为双向迭代器
 	
+	$ 定义关联容器
+		>> 
 
 
 
