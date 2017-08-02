@@ -83,9 +83,9 @@
 	$ HOW：当向一个插入迭代器赋值时,即将该元素插入到当前位置上
 	
 	$ 类型：
-		>> back_insert创建一个使用push_back的迭代器,插入的元素调用c.push_back
-		>> front_inser创建一个使用push_front的迭代器,插入的元素调用c.push_front
-		>> insert创建一个insert的迭代器：接受第二个指向该容器的迭代器,表示将元素插入到该迭代器之前
+		>> back_inserter创建一个使用push_back的迭代器,插入的元素调用c.push_back
+		>> front_inserer创建一个使用push_front的迭代器,插入的元素调用c.push_front
+		>> inserter创建一个insert的迭代器：接受第二个指向该容器的迭代器,表示将元素插入到该迭代器之前
 	
 	$ why(原理)：对于语句：
 		auto it = insert(c, c.cbengin())：
@@ -203,7 +203,51 @@
 
 --------------------
 11.3、关联容器操作
+	$ 关联容器定义了三种额外的类型
+		>> key_type：关键字类型
+		>> mapped_type：关键字关联的类型(值)---只有map有该类型
+		>> value_type：对于set,与key_type相同,对于map,为pair<const key_type, mapped_type>(容器元素)
+	
+	$ 关联容器迭代器
+		>> 关联容器迭代器解引用获得是value_type类型
+		>> set的元素都是const类型的,只读不能改变
+		>> map、set都支持begin()和end()操作获取迭代器iterator
+		>> 有序的关联迭代器排列是按照字典序排列,遍历按照升序遍历
+		>> 关联容器一般不适用泛型算法,因为：1、关联容器中的关键字为const 2、关键字一般无法快速查找容器元素
+		
+	$ 添加元素
+		>> 关联容器支持成员函数insert用于向元素插入一个元素或一个元素范围
+		>> insert支持花括号列表插入和迭代器范围插入
+		>> 对于map,插入的元素必须是pair类型
+		>> 对于不重复元素的关联容器的插入：
+			insert(v)返回的是一个pair类型,first成员为插入元素迭代器,second指示是否插入成功
+			关键字存在容器中,则first为原值,second为false
+	
+	$ 删除元素
+		>> erase支持三个版本：
+		   % c.erase(p); //p为容器c中的真实存在的元素,返回void
+		   % c.erase(b, e) //删除迭代b和e范围的元素,返回e
+		   % c.erase(k)   //k为key_type类型,删除容器中k关联的元素,返回删除的元素个数
+		
+	$ map的下标操作
+		>> set不支持下标操作
+		>> map、unordered_map支持下标运算符和at函数
+			% map的下标运算符为关键字,如果容器中不存在,则创建一个执行了值初始化的关联值组成的元素
+			% c.at(k) //访问关键字为k的元素,如果不存在,则抛出异常
+			% map的下标操作返回的是mapped_type的类型,是一个左值,可以读写
+	
+	$ 访问元素
+		>> c.find返回一个指向第一个关键字为k的元素
+		   % c.count返回一个关键k的对于的元素个数
+		   % c.lowr_bound(k)返回第一个不小于关键字k的元素
+		   % c.upper_bound(k)返回第一个大于关键字k的元素
+		   % c.equal_range(k)返回一个迭代器pair,pair的两个成员表示等于k的元素范围迭代器
+		>> 对于有序的multi容器,同一关键字的元素是相邻存储的
 
+--------------------
+11.4、无序容器
+	>> 定义4个无序关联容器,使用哈希函数和关键字类型的==运算符来组织元素
+	>> 无序容器通过桶保存,计算关键字的哈希值,获取对应的桶,从而得到元素
 
 
 
