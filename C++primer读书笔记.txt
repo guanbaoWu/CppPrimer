@@ -322,6 +322,17 @@
 			% 当使用u.realease时会释放动态数组
 		>> share_ptr不支持管理动态数组,并且未定义下标运算符,如果必须使用,则需要重载share_ptr的删除器
 	
+	$ allocator类
+		>> what：用于new在分配内存的同时也构造了对象的问题,标准库的allocator类将分配内存和构造对象分离
+			% 分配的内存是原始的,未构造的
+			% 类型与vector,属于模板
+		>> how：
+			% 形如：allocator<string> alloc; auto const p = alloc.allocate(n); //分配n个未初始化的string
+			% 调用：alloc.construct(p, "hi");进行对象的构造
+			% 调用：alloc.destroy(p);调用对象的析构函数进行对象的销毁
+			% 调用：alloc.deallocate(p, n)进行内存的释放
+			% allocator还支持其他的算法操作：uninitialized_copy和uninitialized_fill操作用于拷贝和填充未构造的内存
+						
 	
 	
 	
